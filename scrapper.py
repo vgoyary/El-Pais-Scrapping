@@ -12,12 +12,22 @@ from webdriver_manager.chrome import ChromeDriverManager
 from googletrans import Translator
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
+from dotenv import load_dotenv
 
-# Replace these with your BrowserStack credentials
-BROWSERSTACK_USERNAME="vileenaranigoyar_XxRP47"
-BROWSERSTACK_ACCESS_KEY="PsBBBag8STAET2C5AzHn"
+# Load environment variables from .env file
+load_dotenv()
 
-# Ensure output folder exists
+# Get BrowserStack credentials from environment variables
+BROWSERSTACK_USERNAME = os.getenv("BROWSERSTACK_USERNAME")
+BROWSERSTACK_ACCESS_KEY = os.getenv("BROWSERSTACK_ACCESS_KEY")
+
+# Check if credentials are provided
+if not BROWSERSTACK_USERNAME or not BROWSERSTACK_ACCESS_KEY:
+    print("[ERROR] BrowserStack credentials not found in environment variables.")
+    print("[ERROR] Please create a .env file with your BrowserStack credentials.")
+    print("[ERROR] See env_template.txt for the required format.")
+    exit(1)
+
 os.makedirs("article_images", exist_ok=True)
 
 translator = Translator()
@@ -28,12 +38,10 @@ def get_chrome_driver_path():
     if chrome_driver_path.endswith("chromedriver-win32/THIRD_PARTY_NOTICES.chromedriver"):
         chrome_driver_path = chrome_driver_path.replace("THIRD_PARTY_NOTICES.chromedriver", "chromedriver.exe")
     elif not chrome_driver_path.endswith("chromedriver.exe"):
-        # If the path doesn't end with .exe, try to find the chromedriver.exe in the same directory
         import os
         if os.path.isdir(chrome_driver_path):
             chrome_driver_path = os.path.join(chrome_driver_path, "chromedriver.exe")
         else:
-            # Check if chromedriver.exe exists in the same directory
             driver_dir = os.path.dirname(chrome_driver_path)
             potential_driver = os.path.join(driver_dir, "chromedriver.exe")
             if os.path.exists(potential_driver):
@@ -436,6 +444,5 @@ def main(local=True, use_browserstack=False):
         print("No words repeated more than twice found.")
 
 if __name__ == "__main__":
-    # BrowserStack testing mode - will run on 5 parallel browser sessions
     print("[INFO] Starting BrowserStack parallel testing...")
     main(local=False, use_browserstack=True)

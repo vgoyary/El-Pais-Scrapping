@@ -17,6 +17,7 @@ A comprehensive web scraping project that demonstrates Selenium automation, Brow
 browserstack/
 ├── scrapper.py            # Main scraper script
 ├── requirements.txt       # Python dependencies
+├── env_template.txt       # Environment variables template
 ├── README.md             # This file
 ├── scraped_articles.json # Output file with scraped data
 └── article_images/       # Directory for downloaded images
@@ -37,11 +38,12 @@ browserstack/
    pip install -r requirements.txt
    ```
 
-3. **Set up BrowserStack credentials**:
-   - Edit `scrapper.py` and replace the placeholder credentials with your actual BrowserStack credentials:
-   ```python
-   BROWSERSTACK_USERNAME="your_browserstack_username"
-   BROWSERSTACK_ACCESS_KEY="your_browserstack_access_key"
+3. **Set up environment variables**:
+   - Copy `env_template.txt` to `.env`
+   - Fill in your BrowserStack credentials:
+   ```
+   BROWSERSTACK_USERNAME=your_browserstack_username
+   BROWSERSTACK_ACCESS_KEY=your_browserstack_access_key
    ```
 
 ## BrowserStack Setup
@@ -51,7 +53,7 @@ browserstack/
    - Login to BrowserStack
    - Go to Account Settings
    - Copy your Username and Access Key
-3. **Add credentials to `scrapper.py`**
+3. **Add credentials to `.env` file**
 
 ## Usage
 
@@ -124,7 +126,7 @@ The script includes robust error handling for:
 ### Common Issues:
 
 1. **BrowserStack credentials error**:
-   - Ensure credentials are correctly set in `scrapper.py`
+   - Ensure `.env` file exists with correct credentials
    - Check BrowserStack account status
 
 2. **Scraping errors**:
@@ -154,29 +156,5 @@ Modify `scrapper.py` to adjust:
 - `beautifulsoup4` - HTML parsing
 - `googletrans==4.0.0-rc1` - Translation services
 - `webdriver-manager` - Automatic ChromeDriver management
+- `python-dotenv` - Environment variables management
 
-## Security Note
-
-**Important**: The current implementation has BrowserStack credentials hardcoded in the script. For production use, consider:
-- Using environment variables
-- Creating a separate config file (not committed to version control)
-- Using BrowserStack's secure credential management
-
-## Legal Notice
-
-This scraper is for educational and research purposes. Please respect:
-- El País' robots.txt and terms of service
-- Rate limiting to avoid overwhelming servers
-- Copyright laws regarding content usage
-
-## License
-
-This project is for educational demonstration purposes.
-
-## Support
-
-For issues or questions:
-1. Check the console output for error messages
-2. Verify BrowserStack credentials and account status
-3. Ensure all dependencies are properly installed
-4. Check that ChromeDriver is properly installed (handled automatically by webdriver-manager) 
